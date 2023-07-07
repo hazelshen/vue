@@ -55,6 +55,8 @@ margin: 10px;
         button {
             width: 40px;
             height: 30px;
+            border: none;
+            background-color: rgba(248, 154, 170, 0.865);
         }
 
         .text {
@@ -102,11 +104,11 @@ flex-grow: 1;
                             <h4>{{item.name}}</h4>
                             <p>${{item.price}}</p>
                         </div>
-                        <button v-on:click="add(index)">+</button>
+                        <button v-on:click="minus(index)">-</button>
                         <div class="quantity">
                             {{item.quantity}}
                         </div>
-                        <button v-on:click="minus(index)">-</button>
+                        <button v-on:click="add(index)">+</button>
                         <button v-on:click="del" class="del">X</button>
                     </div>
 
