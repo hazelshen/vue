@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            max-width: 1280px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container h2{
+            text-align: center;
+        }
+
+
+        .pic {
+            width: 200px;
+            height: 150px;
+        }
+
+        .pic img {
+            width: 100%;
+            height: 100%;
+          
+        }
+
+        .ul {
+            margin: auto;
+            background-color: aqua;
+        }
+
+        li {
+            margin: auto;
+            border: 0.5px solid black;
+            list-style-type: none;
+            width: 700px;
+            background-color: rgba(248, 154, 170, 0.865);
+            margin-bottom: 35px;
+        }
+
+        .card {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+margin: 10px;
+        }
+
+        button {
+            width: 40px;
+            height: 30px;
+        }
+
+        .text {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+flex-grow: 1;
+        }
+
+        .del {
+            font-size: 12px;
+        }
+
+
+
+        .total {
+            width: 200px;
+            border: 1px solid #111;
+            text-align: center;
+            align-self: flex-end;
+        }
+
+        .reset {
+            align-self: flex-end;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+
+
+            <h2>購物車</h2>
+            <button class="reset" @:click="reset">重置</button>
+            <ul>
+                <li v-for="(item,index) in shoplist">
+                    <div class="card">
+                        <div class="pic">
+                            <img :src="item.img">
+                        </div>
+                        <div class="text">
+                            <h4>{{item.name}}</h4>
+                            <p>${{item.price}}</p>
+                        </div>
+                        <button v-on:click="add(index)">+</button>
+                        <div class="quantity">
+                            {{item.quantity}}
+                        </div>
+                        <button v-on:click="minus(index)">-</button>
+                        <button v-on:click="del" class="del">X</button>
+                    </div>
+
+
+                </li>
+            </ul>
+
+            <div class="total">
+                總共${{totalQuantity}}元
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    shoplist: [
+                        { name: 'Apple', price: 200, img: 'https://picsum.photos/300/200/?random=10', quantity: 0 },
+                        { name: 'Orange', price: 300, img: 'https://picsum.photos/300/200/?random=15', quantity: 0 },
+                        { name: 'Banana', price: 400, img: 'https://picsum.photos/300/200/?random=12', quantity: 0 },
+                    ],
+                }
+            },
+            computed: {
+                totalQuantity() {
+                    let b = this.shoplist.length - 1;
+                    let total = 0;
+
+                    for (i = 0; i <= b; i++) {
+                        let c = this.shoplist[i].price;
+                        let d = this.shoplist[i].quantity;
+                        total += (c * d);
+                    }
+
+                    return total;
+                }
+
+
+            },
+            methods: {
+                del() {
+                    this.shoplist.splice(0, 1);
+                },
+
+                add(i) {
+
+                    this.shoplist[i].quantity += 1;
+                },
+                minus(i) {
+                    if (this.shoplist[i].quantity != 0
+
+                    ) { this.shoplist[i].quantity -= 1; }
+
+                },
+                reset() {
+                    document.querySelector('.total').innerHTML = `總共:0元`;
+
+                    for (i = 0; i < this.shoplist.length; i++) {
+                        this.shoplist[i].quantity = 0;
+                        
+                    }
+                }
+
+
+            },
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
